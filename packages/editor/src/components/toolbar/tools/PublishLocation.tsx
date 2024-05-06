@@ -30,6 +30,7 @@ import LocationDrawer, {
 } from '@etherealengine/client-core/src/admin/common/Location/LocationDrawer'
 import { AuthState } from '@etherealengine/client-core/src/user/services/AuthService'
 import { locationPath } from '@etherealengine/common/src/schema.type.module'
+import { createHookableFunction } from '@etherealengine/common/src/utils/createHookableFunction'
 import { NO_PROXY, getMutableState, useHookstate } from '@etherealengine/hyperflux'
 import { useFind } from '@etherealengine/spatial/src/common/functions/FeathersHooks'
 import { Button } from '@mui/material'
@@ -38,7 +39,7 @@ import { EditorState } from '../../../services/EditorServices'
 import { InfoTooltip } from '../../layout/Tooltip'
 import * as styles from '../styles.module.scss'
 
-export const PublishLocation = () => {
+export const PublishLocation = createHookableFunction(() => {
   const { t } = useTranslation()
   const openLocationDrawer = useHookstate(false)
   const sceneID = useHookstate(getMutableState(EditorState).sceneAssetID)
@@ -96,6 +97,6 @@ export const PublishLocation = () => {
       />
     </>
   )
-}
+})
 
 export default PublishLocation
