@@ -447,6 +447,10 @@ const removeLocationFromProject = async (context: HookContext<ProjectService>) =
       }
     }
   })
+  logger.info(
+    `[Projects]: removing locations for project id "${context.id}", name: "${context.project.name}".`,
+    removingLocations
+  )
   await Promise.all(
     removingLocations.data.map((removingLocation) => context.app.service(locationPath).remove(removingLocation.id))
   )
@@ -458,6 +462,7 @@ const removeLocationFromProject = async (context: HookContext<ProjectService>) =
  * @returns
  */
 const removeRouteFromProject = async (context: HookContext<ProjectService>) => {
+  logger.info(`[Projects]: removing routes for project id "${context.id}", name: "${context.project.name}".`)
   await context.app.service(routePath).remove(null, {
     query: {
       project: context.project.name
@@ -471,6 +476,7 @@ const removeRouteFromProject = async (context: HookContext<ProjectService>) => {
  * @returns
  */
 const removeAvatarsFromProject = async (context: HookContext<ProjectService>) => {
+  logger.info(`[Projects]: removing avatars for project id "${context.id}", name: "${context.project.name}".`)
   const avatarItems = (await context.app.service(avatarPath).find({
     query: {
       project: context.project.name
@@ -491,6 +497,7 @@ const removeAvatarsFromProject = async (context: HookContext<ProjectService>) =>
  * @returns
  */
 const removeStaticResourcesFromProject = async (context: HookContext<ProjectService>) => {
+  logger.info(`[Projects]: removing static resources for project id "${context.id}", name: "${context.project.name}".`)
   const staticResourceItems = (await context.app.service(staticResourcePath).find({
     query: {
       project: context.project.name
@@ -509,6 +516,9 @@ const removeStaticResourcesFromProject = async (context: HookContext<ProjectServ
  * @returns
  */
 const removeProjectUpdate = async (context: HookContext<ProjectService>) => {
+  logger.info(
+    `[Projects]: removing project update job for project id "${context.id}", name: "${context.project.name}".`
+  )
   await removeProjectUpdateJob(context.app, context.project.name)
 }
 
