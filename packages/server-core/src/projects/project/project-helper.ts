@@ -1559,22 +1559,22 @@ export const deleteProjectFilesInStorageProvider = async (
   projectName: string,
   storageProviderName?: string
 ) => {
-  logger.info('deleteProjectFilesInStorageProvider for project:', projectName)
+  logger.info(`deleteProjectFilesInStorageProvider for project "${projectName}" started at "${new Date()}".`)
   const storageProvider = getStorageProvider(storageProviderName)
-  logger.info('deleteProjectFilesInStorageProvider for storageProvider:', storageProvider)
+  logger.info(`deleteProjectFilesInStorageProvider for storageProvider: ${storageProviderName}`)
   try {
     const existingFiles = await getFileKeysRecursive(`projects/${projectName}`)
-    logger.info('deleteProjectFilesInStorageProvider for existingFiles:', existingFiles)
+    logger.info(`deleteProjectFilesInStorageProvider for existingFiles: ${existingFiles}`)
     if (existingFiles.length) {
-      logger.info('deleteProjectFilesInStorageProvider for existingFiles before deletion:', existingFiles)
+      logger.info(`deleteProjectFilesInStorageProvider for existingFiles before deletion: ${existingFiles}`)
       await storageProvider.deleteResources(existingFiles)
-      logger.info('deleteProjectFilesInStorageProvider for existingFiles after deletion:', existingFiles)
+      logger.info(`deleteProjectFilesInStorageProvider for existingFiles after deletion: ${existingFiles}`)
       if (config.server.edgeCachingEnabled) {
-        logger.info('deleteProjectFilesInStorageProvider for edgeCachingEnabled:', config.server.edgeCachingEnabled)
+        logger.info(`deleteProjectFilesInStorageProvider for before invalidationPath`)
         await app.service(invalidationPath).create({
           path: `projects/${projectName}*`
         })
-        logger.info('deleteProjectFilesInStorageProvider for invalidationPath:')
+        logger.info('deleteProjectFilesInStorageProvider for after invalidationPath')
       }
     }
   } catch (e) {

@@ -27,18 +27,25 @@ import logger from '../../ServerLogger'
 import { getStorageProvider } from './storageprovider'
 
 export const getFileKeysRecursive = async (path: string, storageProviderName?: string) => {
+  logger.info(`getFileKeysRecursive: ${path}`)
   const storageProvider = getStorageProvider(storageProviderName)
+  logger.info(`getFileKeysRecursive: ${storageProviderName}`)
   const files: string[] = []
   try {
+    logger.info(`getFileKeysRecursive before listObjects: ${path}`)
     const response = await storageProvider.listObjects(path, true)
+    logger.info(`getFileKeysRecursive after listObjects: ${path}`)
     const entries = response.Contents
+    logger.info(`getFileKeysRecursive entries: ${entries}`)
     if (entries.length) {
       for (const { Key } of entries) {
         files.push(Key)
       }
     }
+    logger.info(`getFileKeysRecursive files: ${files}`)
   } catch (e) {
     logger.error(e)
   }
+  logger.info(`getFileKeysRecursive return files: ${files}`)
   return files
 }

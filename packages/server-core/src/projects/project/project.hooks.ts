@@ -448,8 +448,7 @@ const removeLocationFromProject = async (context: HookContext<ProjectService>) =
     }
   })
   logger.info(
-    `[Projects]: removing locations for project id "${context.id}", name: "${context.project.name}".`,
-    removingLocations
+    `[Projects]: removing locations for project id "${context.id}", name: "${context.project.name}", ${removingLocations}.`
   )
   await Promise.all(
     removingLocations.data.map((removingLocation) => context.app.service(locationPath).remove(removingLocation.id))
