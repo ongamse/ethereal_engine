@@ -304,16 +304,27 @@ export class S3Provider implements StorageProviderInterface {
       Prefix: prefix,
       Delimiter: recursive ? undefined : '/'
     })
-    const response = await this.provider.send(command)
+
+    let response: any = {}
+
+    try {
+      console.log('sending command', command)
+      response = await this.provider.send(command)
+      console.log('response', response)
+    } catch (e) {
+      throw new Error(e)
+    }
+
     if (!response.Contents) response.Contents = []
     if (!response.CommonPrefixes) response.CommonPrefixes = []
 
     if (response.IsTruncated) {
+      console.log('truncated')
       const _data = await this.listObjects(prefix, recursive, response.NextContinuationToken)
       response.Contents = response.Contents.concat(_data.Contents)
       if (_data.CommonPrefixes) response.CommonPrefixes = response.CommonPrefixes.concat(_data.CommonPrefixes)
     }
-
+    console.log('returning')
     return response as StorageListObjectInterface
   }
 
