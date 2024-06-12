@@ -28,8 +28,8 @@ import { getStorageProvider } from './storageprovider'
 
 export const getFileKeysRecursive = async (path: string, storageProviderName?: string) => {
   logger.info(`getFileKeysRecursive: ${path}`)
-  const storageProvider = getStorageProvider('s3')
-  logger.info(`getFileKeysRecursive: ${storageProvider.provider}`)
+  const storageProvider = getStorageProvider(storageProviderName)
+  logger.info(`getFileKeysRecursive: ${JSON.stringify(storageProvider)}`)
   const files: string[] = []
   try {
     logger.info(`getFileKeysRecursive before listObjects: ${path}`)
