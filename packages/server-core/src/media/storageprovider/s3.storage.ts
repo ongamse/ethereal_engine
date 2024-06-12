@@ -66,6 +66,7 @@ import { buffer } from 'node:stream/consumers'
 import path from 'path/posix'
 import S3BlobStore from 's3-blob-store'
 import { PassThrough, Readable } from 'stream'
+import * as util from 'util'
 
 import { MULTIPART_CHUNK_SIZE, MULTIPART_CUTOFF_SIZE } from '@etherealengine/common/src/constants/FileSizeConstants'
 import {
@@ -309,7 +310,7 @@ export class S3Provider implements StorageProviderInterface {
     let response: any = {}
 
     try {
-      logger.info(`listObjects: ${prefix}`)
+      logger.info(`listObjects: ${prefix}, command: ${util.inspect(command)} `)
       response = await this.provider.send(command)
       logger.info(`listObjects response: ${response}`)
       for (const item of response.Contents) {
