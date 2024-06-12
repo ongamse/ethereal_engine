@@ -76,6 +76,7 @@ import {
 } from '@etherealengine/common/src/constants/ProjectKeyConstants'
 import { FileBrowserContentType } from '@etherealengine/common/src/schemas/media/file-browser.schema'
 
+import logger from '../../ServerLogger'
 import config from '../../appconfig'
 import { getCacheDomain } from './getCacheDomain'
 import { getCachedURL } from './getCachedURL'
@@ -308,9 +309,12 @@ export class S3Provider implements StorageProviderInterface {
     let response: any = {}
 
     try {
-      console.log('sending command', command)
+      logger.info(`listObjects: ${prefix}`)
       response = await this.provider.send(command)
-      console.log('response', response)
+      logger.info(`listObjects response: ${response}`)
+      for (const item of response.Contents) {
+        logger.info(`listObjects item: ${item.Key}`)
+      }
     } catch (e) {
       throw new Error(e)
     }
@@ -319,12 +323,12 @@ export class S3Provider implements StorageProviderInterface {
     if (!response.CommonPrefixes) response.CommonPrefixes = []
 
     if (response.IsTruncated) {
-      console.log('truncated')
+      logger.info('truncated')
       const _data = await this.listObjects(prefix, recursive, response.NextContinuationToken)
       response.Contents = response.Contents.concat(_data.Contents)
       if (_data.CommonPrefixes) response.CommonPrefixes = response.CommonPrefixes.concat(_data.CommonPrefixes)
     }
-    console.log('returning')
+    logger.info('returning')
     return response as StorageListObjectInterface
   }
 
