@@ -23,13 +23,14 @@ All portions of the code written by the Ethereal Engine team are Copyright © 20
 Ethereal Engine. All Rights Reserved.
 */
 
+import * as util from 'util'
 import logger from '../../ServerLogger'
 import { getStorageProvider } from './storageprovider'
 
 export const getFileKeysRecursive = async (path: string, storageProviderName?: string) => {
   logger.info(`getFileKeysRecursive: ${path}`)
   const storageProvider = getStorageProvider(storageProviderName)
-  logger.info(`getFileKeysRecursive: ${storageProvider}`)
+  logger.info(`getFileKeysRecursive: ${util.inspect(storageProvider)}`)
   const files: string[] = []
   try {
     logger.info(`getFileKeysRecursive before listObjects: ${path}`)
