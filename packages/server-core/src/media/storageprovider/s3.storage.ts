@@ -312,10 +312,12 @@ export class S3Provider implements StorageProviderInterface {
     try {
       logger.info(`listObjects: ${prefix}, command: ${util.inspect(command)} `)
       response = await this.provider.send(command)
+      await new Promise((resolve) =>
+        setTimeout(() => {
+          resolve(null)
+        }, 3000)
+      )
       logger.info(`listObjects response: ${response}`)
-      for (const item of response.Contents) {
-        logger.info(`listObjects item: ${item.Key}`)
-      }
     } catch (e) {
       logger.error(`Error: ${util.inspect(e)}`)
       throw new Error(e)
