@@ -317,7 +317,7 @@ export class S3Provider implements StorageProviderInterface {
         logger.info(`listObjects item: ${item.Key}`)
       }
     } catch (e) {
-      logger.error(`Error: ${e}`)
+      logger.error(`Error: ${util.inspect(e)}`)
       throw new Error(e)
     }
 
