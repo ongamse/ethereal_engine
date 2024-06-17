@@ -55,6 +55,8 @@ const knexClient = knex({
 
 cli.main(async () => {
   const [results] = await knexClient.raw("SHOW TABLES LIKE 'user';")
+  console.log('table results', results)
+  console.log('BUILDER_FORCE_DB_REFRESH', process.env.BUILDER_FORCE_DB_REFRESH, process.env.BUILDER_FORCE_DB_REFRESH === 'true', results.length === 0 || process.env.BUILDER_FORCE_DB_REFRESH === 'true')
 
   if (results.length === 0 || process.env.BUILDER_FORCE_DB_REFRESH === 'true') {
     console.log('User table not found, seeding the database...')
