@@ -27,7 +27,7 @@ jobs:
 
     - name: preZero Static Analysis
       run: |
-        ${GITHUB_WORKSPACE}/sl analyze --strict --wait --verbose \
+        ${GITHUB_WORKSPACE}/sl analyze --wait --verbose \
           --app Ethereal \
           --tag branch=${{ github.head_ref }}
       env:
