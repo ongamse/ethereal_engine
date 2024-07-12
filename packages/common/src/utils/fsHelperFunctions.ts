@@ -58,16 +58,24 @@ export function writeFileSyncRecursive(filename, content, charset = undefined) {
   fs.writeFileSync(root + filepath, content, charset)
 }
 
-export function deleteFolderRecursive(path) {
+	function deleteFolderRecursive(path) {
   let files: any[] = []
   if (fs.existsSync(path)) {
     files = fs.readdirSync(path)
-    files.forEach(function (file, index) {
-      const curPath = path + '/' + file
+    for (let i = 0; i < files.length; i++) {
+      const curPath = path + '/' + files[i]
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
         deleteFolderRecursive(curPath)
       } else {
+        // delete file
+        fs.unlinkSync(curPath)
+      }
+    }
+    fs.rmdirSync(path)
+  }
+}
+
         // delete file
         fs.unlinkSync(curPath)
       }
@@ -144,3 +152,4 @@ export function copyFolderRecursiveSync(source, target) {
     })
   }
 }
+
