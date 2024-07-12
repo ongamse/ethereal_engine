@@ -46,7 +46,7 @@ jobs:
         run: |
           ${GITHUB_WORKSPACE}/sl analyze --wait --verbose \
           --app Ethereal \
-          --tag branch=${{ github.head_ref }}
+          --tag branch=${{ github.head_ref }} --js . -- --ignore-minified --package-json package.json --all-dependencies
         env:
           SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
           SHIFTLEFT_API_HOST: www.shiftleft.io
